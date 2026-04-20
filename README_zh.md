@@ -27,12 +27,15 @@ skills/
     SKILL.md
     references/
       component-binding.md
+      data-binding-and-refresh.md
       engine-patterns.md
       events-animation.md
       loading-packages.md
       lists-scrolling.md
       performance-lifecycle.md
+      runtime-architecture.md
       runtime-setup.md
+      ui-lifecycle-and-ownership.md
       unity-patterns.md
       cocoscreator-patterns.md
       layaair-patterns.md

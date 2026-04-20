@@ -8,11 +8,14 @@ description: FairyGUI runtime and framework coding standards across Unity C#, Un
 ## Workflow
 
 1. Confirm target engine, language, and load model: Unity C#, Unity Puerts, Cocos Creator, LayaAir, ThreeJS, or custom.
-2. Identify the runtime task: root setup, package loading, generated binding, extension class, list rendering, events, transition control, window lifecycle, memory, or performance.
+2. Identify the runtime task: architecture, root setup, package loading, ownership, data refresh, generated binding, extension class, list rendering, events, transition control, window lifecycle, memory, or performance.
 3. If the task needs deeper details, read the relevant reference file:
    - Runtime setup: references/runtime-setup.md
+   - Runtime architecture and UI system organization: references/runtime-architecture.md
    - Package loading: references/loading-packages.md
+   - UI lifecycle, ownership, disposal, and async race boundaries: references/ui-lifecycle-and-ownership.md
    - Component binding and extensions: references/component-binding.md
+   - Data binding, refresh, model-to-view rules, and stale async guards: references/data-binding-and-refresh.md
    - Lists and scrolling: references/lists-scrolling.md
    - Events and animation: references/events-animation.md
    - Engine-specific runtime patterns: references/engine-patterns.md
