@@ -1,0 +1,13 @@
+{
+  "name": "fairygui-marketplace",
+  "owner": {
+    "name": "Krapnik"
+  },
+  "plugins": [
+    {
+      "name": "fairygui-skills",
+      "source": "./",
+      "description": "FairyGUI editor and runtime skills for Claude Code"
+    }
+  ]
+}

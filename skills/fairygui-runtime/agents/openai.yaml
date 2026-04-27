@@ -1,0 +1,7 @@
+interface:
+  display_name: "FairyGUI Runtime"
+  short_description: "Runtime architecture, loading, binding, and UI lifecycle"
+  default_prompt: "Use $fairygui-runtime to design or review FairyGUI runtime architecture, package loading, bindings, or UI lifecycle."
+
+policy:
+  allow_implicit_invocation: true

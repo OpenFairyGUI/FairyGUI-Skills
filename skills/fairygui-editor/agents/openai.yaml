@@ -1,0 +1,7 @@
+interface:
+  display_name: "FairyGUI Editor"
+  short_description: "Editor workflows, publishing, and component design"
+  default_prompt: "Use $fairygui-editor to guide FairyGUI editor project setup, component design, publishing, or editor troubleshooting."
+
+policy:
+  allow_implicit_invocation: true
