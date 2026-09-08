@@ -17,6 +17,8 @@ Derived from:
 ## Component authoring
 
 - Use components as the default composition unit. Prefer component nesting over assembling many unrelated runtime objects in code.
+- Start each component from a user task or business role, not from a pile of art slices. The component should explain what the user can see, do, and switch.
+- Before adding resources, apply the [reuse and acceptance guidance](business-driven-ui.md#reuse-existing-assets-and-components); prefer existing references and supported instance differences over copied component internals or artwork.
 - Set component size, pivot, overflow, and relations in the editor whenever the layout is visual or resolution-dependent.
 - Use `initial name` for framework components that must be named by convention, such as a window frame named `frame`.
 - Use `custom data` for small runtime-readable metadata. Do not use editor custom properties as a runtime contract; they are for editor inspection.
@@ -26,12 +28,13 @@ Derived from:
 
 - Give runtime-bound children semantic names. Avoid relying on generated `n1`, `n2` names in code unless the component is generated and stable.
 - Respect extension component conventions: common built-in names include `title`, `icon`, `button`, `bar`, `grip`, `list`, and `frame`, depending on component type.
-- Use controllers with semantic names such as `c1`, `button`, `IsRead`, or a clearer project-specific name. Runtime code often reads controllers by name.
+- Preserve existing runtime-bound names. Name new controllers by role, such as `rewardState` or `IsRead`, while retaining required conventions such as `button` for a button's state Controller.
 - Name transitions by role (`show`, `hide`, `t0`, `open`, `select`) and add frame labels when runtime code needs hooks or dynamic values.
 
 ## Controllers and relations
 
 - Use controllers for mutually exclusive UI states, visual variants, tab pages, and list/page synchronization.
+- When the product has finite scene or business states, model them as controllers so runtime code can drive a named state contract instead of mutating children individually.
 - Bind list selection or page controllers in the editor when the relationship is structural.
 - Use relations for responsive placement and sizing. Prefer relations over hard-coded runtime coordinates for screen edges, center alignment, and stretched panels.
 - When runtime code sets positions after creation, preserve editor-defined relations unless the object is deliberately detached from adaptive layout.

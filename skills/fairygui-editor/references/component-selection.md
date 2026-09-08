@@ -6,6 +6,15 @@ Derived from:
 - FairyGUI editor documentation for images, loaders, text, groups, components, controls, lists, trees, popups, windows, and transitions.
 - Common production mistakes seen when visual editor decisions leak into runtime code.
 
+## Business-First Lens
+
+Before selecting an object type, answer:
+- Is the user looking at information, choosing something, confirming an action, or navigating to another state?
+- Is the object an action target, a state container, or only a visual asset?
+- Is the state finite and previewable in the editor?
+
+The right component choice usually follows from user intent, not from raw art structure.
+
 ## Selection Matrix
 
 | Need | Prefer | Avoid |
@@ -15,7 +24,7 @@ Derived from:
 | Simple vector shape or hit area | Graph | Imported bitmap |
 | Reusable composed UI | Component | Group as a container |
 | Visual state variants | Controller + gears | Duplicated components |
-| Repeated rows or grids | List | Manual child creation |
+| Repeated data rows or grids | List | Rebuilding every row manually |
 | Huge data set | Virtual List | Full physical list |
 | Hierarchical data | Tree | Nested manual lists |
 | Modal lifecycle | Window | Raw component with ad-hoc state |
@@ -28,7 +37,7 @@ Derived from:
 
 Use when:
 - The asset is static and belongs to the package atlas.
-- The image is selected by controller/gears rather than arbitrary runtime data.
+- The asset is fixed; Controllers may change its visibility, color or other supported properties.
 - Atlas packing and draw-call friendliness matter.
 
 Avoid when:
@@ -101,6 +110,8 @@ Use when:
 - The UI is reusable, nested, has its own size, relations, custom data, controllers, transitions, or runtime class.
 - You need a container that can clip, scroll, mask, expose properties, or be extended.
 
+Inspect existing templates before creating a new definition. Use references and supported instance properties when they express the requested difference; see [reuse guidance](business-driven-ui.md#reuse-existing-assets-and-components).
+
 Avoid when:
 - You only need to visually align a few sibling objects; `Group` may be enough.
 
@@ -109,9 +120,13 @@ Avoid when:
 Use when:
 - The component is clickable and has states such as up, over, down, selected, or disabled.
 - The design follows FairyGUI conventions like `title`, `icon`, and `button` controller.
+- The user perceives the object as an action, choice, tab, toggle, claim target, or confirm target.
 
 Avoid when:
 - The object is only a static decoration with no interaction.
+- The click is incidental and the object is better treated as part of a larger row or card interaction.
+
+Prefer `Button` over a generic `Component` plus ad-hoc click code when the product meaning is clearly "this is a button."
 
 ## ComboBox
 
@@ -154,6 +169,7 @@ Avoid when:
 Use when:
 - The UI shows repeated items in rows, columns, flow, or pages.
 - Items should use pooling, selection mode, item renderer, or virtual list behavior.
+- Users are comparing, scanning, picking, or managing many similar business entities.
 
 Avoid when:
 - You need only a handful of fixed decorative children.
@@ -182,6 +198,7 @@ Avoid when:
 Use when:
 - The UI needs show/hide lifecycle, modal behavior, centering, close handling, or window-level animation.
 - Runtime code benefits from `Window` hooks instead of ad-hoc component state.
+- The interaction is a workflow rather than a static panel, such as confirm, reward, settings, detail, or multi-step tasks.
 
 Avoid when:
 - The panel is a permanent part of a screen layout.

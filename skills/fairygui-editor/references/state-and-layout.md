@@ -16,6 +16,7 @@ Use when:
 - A component has mutually exclusive visual states.
 - Tabs, pages, button states, read/unread flags, fetched/unfetched flags, or view modes should switch multiple child properties together.
 - A list selection or page index should drive another visual state.
+- A business flow or scene mode has finite states such as loading/empty/content/error or normal/locked/claimed.
 
 Avoid when:
 - State is purely data value display, such as setting a text number.
@@ -24,7 +25,8 @@ Avoid when:
 Rules:
 - Name controllers by role when production code reads them.
 - Use controller pages as a visual contract; runtime code should set selected index/page, not mutate every child manually.
-- Keep controller count manageable. If a component needs many independent controllers, consider splitting it.
+- Name each independent state dimension and give its changing properties a clear owner. Do not enumerate every combination in one Controller or split components solely because they have several Controllers.
+- Preserve existing page IDs, actions and bindings when modifying a state model. Controller/Gear, Relations, Transition and runtime writes should not compete over the same property.
 
 ## Gears
 
@@ -38,6 +40,7 @@ Avoid when:
 
 Rules:
 - Prefer gears for visual variants rather than duplicating full components.
+- Gear support depends on object type and SDK. Use supported Gear tweening for a simple state-driven change; use a Transition for a timed sequence with its own targets and playback behavior.
 - Audit gear bindings after renaming controllers or moving children.
 
 ## Relations
@@ -53,8 +56,10 @@ Avoid when:
 
 Rules:
 - Prefer relations over host-engine coordinates for UI layout.
+- Set initial positions, sizes and text autosizing first. Relations preserve offsets or size differences when targets change; they do not establish initial alignment.
 - Add size relations for full-screen dynamic views.
 - Keep relation chains simple; complex circular layout dependencies are hard to debug.
+- Check representative widths and longer text; use width/height changes for layout and Scale for visual effects.
 
 ## Groups
 
@@ -98,16 +103,19 @@ Rules:
 
 Use when:
 - Assets or layout variants differ by platform, language, resolution class, or product channel.
-- The branch is a build-time/editor-time choice rather than a runtime toggle.
+- Shared content can stay in the main resources and only the differences need branch resources.
 
 Avoid when:
 - A controller can express the state inside one package cleanly.
-- Runtime data should choose the state dynamically after package load.
+- A text substitution or small layout adjustment already covers the actual difference.
+
+Branch publication may include all branches for runtime selection or merge the active branch. Confirm the editor publish mode and SDK support, and select the branch before creating affected UI; do not assume changing it updates existing objects. UI branches are not Git branches. See the [official branch documentation](https://www.fairygui.com/docs/editor/branch).
 
 ## Layout Decision Checklist
 
 - Can a designer preview and tune this rule? Put it in editor relations, controllers, gears, or transitions.
 - Does the rule depend on live runtime data? Keep orchestration in code and bind through named children/controllers.
-- Is the content repeated? Use list/tree mechanisms.
+- Does the component represent a user task or business state clearly enough that runtime code can drive it by controller/page instead of patching children?
+- Is this a data collection with shared selection, scrolling or refresh behavior? Consider List/Tree; repeated decorative layers alone do not establish that need.
 - Is the content reusable? Use a component.
 - Is the component full-screen? Use full-screen sizing plus relations, not host-engine manual placement.

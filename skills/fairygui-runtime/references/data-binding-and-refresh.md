@@ -47,6 +47,10 @@ Keep in FairyGUI:
 - Layout and relations.
 - Small view-local `data` fields used for identity or context.
 
+Practical rule:
+- Let the business layer say "this item is locked", "this tab is active", or "this reward is claimable".
+- Let FairyGUI express how those states look through controllers, button states, text, loaders, and transitions.
+
 Avoid:
 - Storing full business models in `GObject.data`.
 - Letting controllers become the source of business truth.
@@ -54,7 +58,7 @@ Avoid:
 
 ## Refresh Order
 
-Prefer this order:
+Choose refresh order from property ownership. A starting order for independent fields is:
 - Text and numeric values.
 - Icons/loaders.
 - Controller states.
@@ -67,6 +71,8 @@ Reason:
 - Lists may reuse items.
 - Transitions should start after the target state is coherent.
 
+If a Controller/Gear owns a field, update its state instead of also writing that field directly. Do not assume the order above is safe when multiple mechanisms write the same property. Check switching away and back, not only the initial refresh.
+
 ## Controllers as View State
 
 Use controllers for:
@@ -75,6 +81,7 @@ Use controllers for:
 - Equipped/locked/selected.
 - Loading/empty/error/content states.
 - Tab/page selection.
+- Scene or workflow states that the user can perceive as a finite set.
 
 Avoid:
 - Encoding open-ended business data as pages.
@@ -86,6 +93,14 @@ Pattern:
 readController.selectedIndex = model.IsRead ? 1 : 0;
 titleText.text = model.Title;
 ```
+
+Business-oriented pattern, where application logic supplies a validated `rewardState` page name (`locked`, `claimable` or `claimed`) and its Gears own the button's presentation:
+
+```ts
+stateController.selectedPage = model.rewardState;
+```
+
+Do not also assign enabled/grayed/touchable properties owned by those Gears. Test actual input when claiming clickability; appearance alone does not establish it.
 
 ## Loader Refresh and Stale Results
 
@@ -165,6 +180,7 @@ Avoid:
 
 - Are events registered once?
 - Is refresh idempotent?
+- Does refresh apply business state through a small set of named controllers and component APIs?
 - Are all controller states set every time?
 - Are loader stale results guarded?
 - Are list rows fully reset?

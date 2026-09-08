@@ -1,7 +1,7 @@
 interface:
-  display_name: "FairyGUI Runtime"
-  short_description: "Runtime architecture, loading, binding, and UI lifecycle"
-  default_prompt: "Use $fairygui-runtime to design or review FairyGUI runtime architecture, package loading, bindings, or UI lifecycle."
+  display_name: "FairyGUI Runtime (Archived)"
+  short_description: "Archived reference for FairyGUI runtime integration"
+  default_prompt: "Use $fairygui-runtime as archived reference for FairyGUI runtime code, checking APIs and lifecycle behavior against my installed SDK."
 
 policy:
   allow_implicit_invocation: true
